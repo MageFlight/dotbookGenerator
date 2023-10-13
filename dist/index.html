@@ -3,9 +3,25 @@
     <head>
         <title>Dotbook Generator</title>
         <script src="bundle.js" type="module"></script>
+        <style>
+            body {
+                min-height: 100vh;
+            }
+
+            embed {
+                width: 75%;
+                height: 100vh;
+            }
+        </style>
     </head>
 
     <body>
         <h1>Dotbook Generator</h1>
+        <embed
+            type="application/pdf"
+            frameBorder="0"
+            scrolling="auto"
+            id="display"
+        ></embed>
     </body>
 </html>
