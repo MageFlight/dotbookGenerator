@@ -1,0 +1,356 @@
+[
+    [
+        {
+            "label": "1",
+            "measures": "Start",
+            "counts": 0,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "1A",
+            "measures": "1",
+            "counts": 4,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": 5.5,
+
+            "hash": "FH",
+            "hashOffset": -4
+        },
+        {
+            "label": "2",
+            "performanceLetter": "A",
+            "measures": "16",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "3",
+            "performanceLetter": "B",
+            "measures": "6-10",
+            "counts": 20,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "3A",
+            "measures": "11-14",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "4",
+            "performanceLetter": "C",
+            "measures": "15-16",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "5",
+            "measures": "17-20",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "6",
+            "performanceLetter": "D",
+            "measures": "21-24",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2.75,
+
+            "hash": "FSL",
+            "hashOffset": -12.75
+        },
+        {
+            "label": "6A",
+            "performanceLetter": "E",
+            "measures": "25-26",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2,
+
+            "hash": "FSL",
+            "hashOffset": -13.75
+        },
+        {
+            "label": "6B",
+            "measures": "27-30",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2,
+
+            "hash": "FSL",
+            "hashOffset": -13.75
+        },
+        {
+            "label": "7",
+            "performanceLetter": "F",
+            "measures": "31-34",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "8",
+            "measures": "35-36",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "9",
+            "measures": "37-38",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "9A",
+            "performanceLetter": "F",
+            "measures": "39-43",
+            "counts": 20,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        }
+    ],
+    [
+        {
+            "label": "1",
+            "measures": "Beginning",
+            "counts": 0,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "1A",
+            "measures": "1",
+            "counts": 4,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": 5.5,
+
+            "hash": "FH",
+            "hashOffset": -4
+        },
+        {
+            "label": "2",
+            "performanceLetter": "A",
+            "measures": "16",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "3",
+            "performanceLetter": "B",
+            "measures": "6-10",
+            "counts": 20,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -1.5,
+
+            "hash": "FH",
+            "hashOffset": 5.5
+        },
+        {
+            "label": "3A",
+            "measures": "11-14",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "4",
+            "performanceLetter": "C",
+            "measures": "15-16",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "5",
+            "measures": "17-20",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 35,
+            "yardLineOffset": -2.5,
+
+            "hash": "FH",
+            "hashOffset": 2.5
+        },
+        {
+            "label": "6",
+            "performanceLetter": "D",
+            "measures": "21-24",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2.75,
+
+            "hash": "FSL",
+            "hashOffset": -12.75
+        },
+        {
+            "label": "6A",
+            "performanceLetter": "E",
+            "measures": "25-26",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2,
+
+            "hash": "FSL",
+            "hashOffset": -13.75
+        },
+        {
+            "label": "6B",
+            "measures": "27-30",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": -2,
+
+            "hash": "FSL",
+            "hashOffset": -13.75
+        },
+        {
+            "label": "7",
+            "performanceLetter": "F",
+            "measures": "31-34",
+            "counts": 16,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "8",
+            "measures": "35-36",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "9",
+            "measures": "37-38",
+            "counts": 8,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        },
+        {
+            "label": "9A",
+            "performanceLetter": "F",
+            "measures": "39-43",
+            "counts": 20,
+
+            "sideNum": 1,
+            "yardLine": 40,
+            "yardLineOffset": 2,
+
+            "hash": "FSL",
+            "hashOffset": -6
+        }
+    ]
+]
