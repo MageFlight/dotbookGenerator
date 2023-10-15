@@ -74,8 +74,8 @@ function parseTable(table) {
             measures: "",
             counts: "",
 
-            sideToSide: "",
-            frontToBack: ""
+            sideToSide: null,
+            frontToBack: null
         };
         cursor++;
 
@@ -95,8 +95,8 @@ function parseTable(table) {
             cursor++;
         }
 
-        setInformtaion.sideToSide = table[cursor];
-        setInformtaion.frontToBack = table[cursor + 1];
+        setInformtaion.sideToSide = parseSideToSide(table[cursor]);
+        setInformtaion.frontToBack = parseFrontToBack(table[cursor + 1]);
         sets[currentSet] = setInformtaion;
 
         cursor += 2;
@@ -107,6 +107,65 @@ function parseTable(table) {
     console.log(sets);
 
     return sets;
+}
+
+/**
+ * 
+ * @param {string} str 
+ */
+function parseSideToSide(str) {
+    const sideNumIndex = str.indexOf(":") - 1
+    let sideToSideInfo = {
+        sideNum: sideNumIndex == -1 ? 1 : parseInt(str[sideNumIndex]),
+        yardLine: 0,
+        yardLineOffset: 0,
+    };
+
+    const onYardLn = str.match(/on \d+/i);
+    if (onYardLn != null) {
+        sideToSideInfo.yardLine = parseInt(onYardLn[0].substring(3));
+        return sideToSideInfo;
+    }
+
+    sideToSideInfo.yardLineOffset = parseInt(str.match(/: \d+(.\d+)?/)[0].substring(2));
+    if (str.includes("inside")) sideToSideInfo.yardLineOffset *= -1;
+
+    sideToSideInfo.yardLine = parseInt(str.match(/\d+ yd ln/i)[0].match(/\d+/));
+    
+    return sideToSideInfo;
+}
+
+/**
+ * 
+ * @param {string} str 
+ */
+function parseFrontToBack(str) {
+    let frontToBackInfo = {
+        hash: "",
+        hashOffset: 0
+    };
+
+    const onHash = str.match(/on [\w ]+/i);
+    if (onHash != null) {
+        frontToBackInfo.hash = onHash[0].substring(3).trim();
+        return frontToBackInfo;
+    }
+
+    frontToBackInfo.hashOffset = parseInt(str.match(/^\d+(.\d+)?/)[0]);
+    if (str.includes("behind")) frontToBackInfo.hashOffset *= -1;
+
+    console.log(str);
+    frontToBackInfo.hash = abbreviate(str.match(/((front)|(back)) ((hash)|(side line))/i)[0]);
+
+    return frontToBackInfo;
+}
+
+/**
+ * 
+ * @param {string} str 
+ */
+function abbreviate(str) {
+    return str.toLowerCase().split(" ").map(word => word[0]).join("").toUpperCase();
 }
 
 /**
