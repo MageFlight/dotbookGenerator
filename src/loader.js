@@ -1,9 +1,9 @@
 const pdfjs = require("pdfjs-dist");
 
-export function loadSets() {
+export function loadSets(performer) {
     pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.bundle.js";
 
-    const pdfUrl = "./mvmt1.pdf";
+    const pdfUrl = "./mvmt2.pdf";
     
     pdfjs.getDocument(pdfUrl).promise.then(pdfDocument => {
         let pagesPromises = [];
@@ -13,11 +13,16 @@ export function loadSets() {
             pagesPromises.push(getPageText(i + 1, pdfDocument));
         }
 
+        let peformerSets = [];
         // Execute all the promises
         Promise.all(pagesPromises).then(pagesText => {
             for (const page of pagesText) {
-                parseText(page, "M2");
+                const sets = parseText(page, "m2");
+                console.log("sets: ", sets);
+                peformerSets = peformerSets.concat(sets);
             }
+
+            console.log("final: ", peformerSets);
         });
 
     }).catch(error => {
@@ -41,18 +46,19 @@ function parseText(text, performer) {
         // Check if the quadrant is for the correct person
         let quadrantPerformer = quadrantText.match(/Label: ((\w+\d+)|(\(unlabeled\)))/i)[0].split(' ')[1];
         if (quadrantPerformer != performer.toLowerCase()) continue;
-        console.log(quadrantText);
 
         // Trim the text and split on semicolons
         const beginMarker = "front-back;";
         const beginIndex = quadrantText.indexOf(beginMarker) + beginMarker.length;
         const endIndex = quadrantText.indexOf(";performer:");
-        console.log(beginIndex, endIndex, quadrantText.length);
 
         const setTexts = quadrantText.substring(beginIndex, endIndex).split(';');
-        console.log(setTexts);const setNumberRegex = /\d+\w*/;
 
-        parseTable(setTexts);
+        const parsedSets = parseTable(setTexts);
+        console.log(quadrantPerformer);
+        console.log("parsedSets: ", parsedSets);
+
+        performerInformation = performerInformation.concat(parsedSets);
     }
 
     return performerInformation;
@@ -107,8 +113,6 @@ function parseTable(table) {
 
     }
 
-    console.log(sets);
-
     return sets;
 }
 
@@ -119,7 +123,7 @@ function parseTable(table) {
 function parseSideToSide(str) {
     const sideNumIndex = str.indexOf(":") - 1
     let sideToSideInfo = {
-        sideNum: sideNumIndex == -1 ? 1 : parseFloat(str[sideNumIndex]),
+        sideNum: sideNumIndex < 0 ? 1 : parseFloat(str[sideNumIndex]),
         yardLine: 0,
         yardLineOffset: 0,
     };
@@ -157,7 +161,6 @@ function parseFrontToBack(str) {
     frontToBackInfo.hashOffset = parseFloat(str.match(/^\d+(.\d+)?/)[0]);
     if (str.includes("behind")) frontToBackInfo.hashOffset *= -1;
 
-    console.log(str);
     frontToBackInfo.hash = abbreviate(str.match(/((front)|(back)) ((hash)|(side line))/i)[0]);
 
     return frontToBackInfo;
@@ -184,7 +187,6 @@ function getPageText(pageNum, PDFDocumentInstance) {
             // The main trick to obtain the text of the PDF page, use the getTextContent method
             pdfPage.getTextContent().then(function (textContent) {
                 let textItems = textContent.items;
-                console.log(textContent);
                 let finalString = "";
 
                 // Concatenate the string of the item to the final string
