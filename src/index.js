@@ -125,7 +125,8 @@ function getYardLineOffsetText(set) {
 
 function getHashOffsetText(set) {
     if (set.frontToBack.hashOffset == 0) {
-        return "On " + set.hash;
+        console.log("set", set.frontToBack.hash);
+        return "On " + set.frontToBack.hash;
     }
 
     return Math.abs(set.frontToBack.hashOffset).toString() +
@@ -177,7 +178,16 @@ function generateDotbook(movements) {
 
 function main() {
     document.querySelector("#generateBtn").addEventListener("click", async () => {
-        console.log("Started Generation")
+        console.log("Started Generation");
+        const dotNumber = document.querySelector("#dotNumberInput").value;
+        if (!dotNumber || dotNumber == "") {
+            alert("Please Enter Dot Number");
+            return;
+        } else if (!/[a-z]+\d+/i.test(dotNumber)) {
+            alert("Dot Number invalid");
+            return;
+        }
+
         const files = document.querySelector("input").files;
         
         if (files.length == 0) {
@@ -194,7 +204,7 @@ function main() {
         let movements = [];
         const fileBuffers = await Promise.all(fileBufferPromises);
         for (const fileBuffer of fileBuffers) {
-            const sets = await loadSets(new Uint8Array(fileBuffer), "m2");
+            const sets = await loadSets(new Uint8Array(fileBuffer), dotNumber);
             movements.push(sets);
         }
         

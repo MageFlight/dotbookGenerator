@@ -1,7 +1,7 @@
 const pdfjs = require("pdfjs-dist");
 
-export async function loadSets(pdfData, performer) {
-    if (!performer) return null;
+export async function loadSets(pdfData, dotNumber) {
+    if (!dotNumber) return null;
 
     pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.bundle.js";
 
@@ -17,7 +17,7 @@ export async function loadSets(pdfData, performer) {
     // Execute all the promises
     const pagesText = await Promise.all(pagesPromises)
     for (const page of pagesText) {
-        const sets = parseText(page, performer);
+        const sets = parseText(page, dotNumber);
         performerSets = performerSets.concat(sets);
     }
     
@@ -100,6 +100,8 @@ function parseTable(table) {
         };
         cursor++;
 
+        console.log("parse set ", setInformtaion.setNumber);
+
         // If the item starts with a letter, it is the performanceLetter
         if (table[cursor].match(/^[a-z]/) != null) {
             setInformtaion.performanceLetter = table[cursor].replace(/^\w/, chr => chr.toUpperCase());
@@ -165,8 +167,10 @@ function parseFrontToBack(str) {
     };
 
     const onHash = str.match(/on [\w ]+/i);
+    console.log("On hash: ", onHash);
     if (onHash != null) {
-        frontToBackInfo.hash = onHash[0].substring(3).trim();
+        frontToBackInfo.hash = abbreviate(onHash[0].substring(3).trim());
+        console.log(frontToBackInfo);
         return frontToBackInfo;
     }
 
