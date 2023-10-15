@@ -6,14 +6,18 @@ export function loadSets() {
     const pdfUrl = "./mvmt1.pdf";
     
     pdfjs.getDocument(pdfUrl).promise.then(pdfDocument => {
+        let pagesPromises = [];
 
-        let totalPages = pdfDocument.numPages;
-        let pageNumber = 1;
-    
-        // Extract the text
-        getPageText(pageNumber, pdfDocument).then(textPage => {
-            // Show the text of the page in the console
-            parseText(textPage, "B1")
+        for (let i = 0; i < pdfDocument.numPages; i++) {
+            // Store the promise of getPageText that returns the text of a page
+            pagesPromises.push(getPageText(i + 1, pdfDocument));
+        }
+
+        // Execute all the promises
+        Promise.all(pagesPromises).then(pagesText => {
+            for (const page of pagesText) {
+                parseText(page, "M2");
+            }
         });
 
     }).catch(error => {
@@ -35,8 +39,7 @@ function parseText(text, performer) {
         if (quadrantText == "") continue;
 
         // Check if the quadrant is for the correct person
-        let quadrantPerformer = quadrantText.match(/Label: \w+\d+/i)[0].split(' ')[1];
-        console.log(quadrantPerformer)
+        let quadrantPerformer = quadrantText.match(/Label: ((\w+\d+)|(\(unlabeled\)))/i)[0].split(' ')[1];
         if (quadrantPerformer != performer.toLowerCase()) continue;
         console.log(quadrantText);
 
@@ -116,21 +119,21 @@ function parseTable(table) {
 function parseSideToSide(str) {
     const sideNumIndex = str.indexOf(":") - 1
     let sideToSideInfo = {
-        sideNum: sideNumIndex == -1 ? 1 : parseInt(str[sideNumIndex]),
+        sideNum: sideNumIndex == -1 ? 1 : parseFloat(str[sideNumIndex]),
         yardLine: 0,
         yardLineOffset: 0,
     };
 
     const onYardLn = str.match(/on \d+/i);
     if (onYardLn != null) {
-        sideToSideInfo.yardLine = parseInt(onYardLn[0].substring(3));
+        sideToSideInfo.yardLine = parseFloat(onYardLn[0].substring(3));
         return sideToSideInfo;
     }
 
-    sideToSideInfo.yardLineOffset = parseInt(str.match(/: \d+(.\d+)?/)[0].substring(2));
+    sideToSideInfo.yardLineOffset = parseFloat(str.match(/: \d+(.\d+)?/)[0].substring(2));
     if (str.includes("inside")) sideToSideInfo.yardLineOffset *= -1;
 
-    sideToSideInfo.yardLine = parseInt(str.match(/\d+ yd ln/i)[0].match(/\d+/));
+    sideToSideInfo.yardLine = parseFloat(str.match(/\d+ yd ln/i)[0].match(/\d+/));
     
     return sideToSideInfo;
 }
@@ -151,7 +154,7 @@ function parseFrontToBack(str) {
         return frontToBackInfo;
     }
 
-    frontToBackInfo.hashOffset = parseInt(str.match(/^\d+(.\d+)?/)[0]);
+    frontToBackInfo.hashOffset = parseFloat(str.match(/^\d+(.\d+)?/)[0]);
     if (str.includes("behind")) frontToBackInfo.hashOffset *= -1;
 
     console.log(str);
