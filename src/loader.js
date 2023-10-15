@@ -1,13 +1,11 @@
 const pdfjs = require("pdfjs-dist");
 
-export async function loadSets(performer) {
+export async function loadSets(pdfData, performer) {
     if (!performer) return null;
 
     pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.bundle.js";
 
-    const pdfUrl = "./mvmt2.pdf";
-    
-    const pdfDocument = await pdfjs.getDocument(pdfUrl).promise;
+    const pdfDocument = await pdfjs.getDocument(pdfData).promise;
     let pagesPromises = [];
 
     for (let i = 0; i < pdfDocument.numPages; i++) {

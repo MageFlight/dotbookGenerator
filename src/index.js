@@ -176,9 +176,23 @@ function generateDotbook(movements) {
 }
 
 function main() {
-    loadSets("m2").then(sets => {
-        console.log("Sets: ", sets);
-        generateDotbook([sets]);
+    document.querySelector("#generateBtn").addEventListener("click", () => {
+        console.log("Started Generation")
+        const files = document.querySelector("input").files;
+        
+        if (files.length == 0) {
+            alert("No file selected.");
+            return;
+        }
+
+        console.log("Files: ", files);
+        files[0].arrayBuffer().then(buffer => {
+            console.log("buffer: ", buffer);
+            loadSets(new Uint8Array(buffer), "m2").then(sets => {
+                console.log("Sets: ", sets);
+                generateDotbook([sets]);
+            });
+        })
     });
 }
 
