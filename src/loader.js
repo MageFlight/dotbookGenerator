@@ -1,33 +1,29 @@
 const pdfjs = require("pdfjs-dist");
 
-export function loadSets(performer) {
+export async function loadSets(performer) {
+    if (!performer) return null;
+
     pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.bundle.js";
 
     const pdfUrl = "./mvmt2.pdf";
     
-    pdfjs.getDocument(pdfUrl).promise.then(pdfDocument => {
-        let pagesPromises = [];
+    const pdfDocument = await pdfjs.getDocument(pdfUrl).promise;
+    let pagesPromises = [];
 
-        for (let i = 0; i < pdfDocument.numPages; i++) {
-            // Store the promise of getPageText that returns the text of a page
-            pagesPromises.push(getPageText(i + 1, pdfDocument));
-        }
+    for (let i = 0; i < pdfDocument.numPages; i++) {
+        // Store the promise of getPageText that returns the text of a page
+        pagesPromises.push(getPageText(i + 1, pdfDocument));
+    }
 
-        let peformerSets = [];
-        // Execute all the promises
-        Promise.all(pagesPromises).then(pagesText => {
-            for (const page of pagesText) {
-                const sets = parseText(page, "m2");
-                console.log("sets: ", sets);
-                peformerSets = peformerSets.concat(sets);
-            }
+    let performerSets = [];
+    // Execute all the promises
+    const pagesText = await Promise.all(pagesPromises)
+    for (const page of pagesText) {
+        const sets = parseText(page, performer);
+        performerSets = performerSets.concat(sets);
+    }
 
-            console.log("final: ", peformerSets);
-        });
-
-    }).catch(error => {
-        console.error(error);
-    })
+    return performerSets;
 }
 
 /**
@@ -48,8 +44,10 @@ function parseText(text, performer) {
         if (quadrantPerformer != performer.toLowerCase()) continue;
 
         // Trim the text and split on semicolons
+        console.log(quadrantText);
         const beginMarker = "front-back;";
-        const beginIndex = quadrantText.indexOf(beginMarker) + beginMarker.length;
+        let beginIndex = quadrantText.indexOf(beginMarker) + beginMarker.length;
+        if (/\d/.test(quadrantText[0])) beginIndex = 0;
         const endIndex = quadrantText.indexOf(";performer:");
 
         const setTexts = quadrantText.substring(beginIndex, endIndex).split(';');
@@ -81,7 +79,7 @@ function parseTable(table) {
 
             performanceLetter: "",
             measures: "",
-            counts: "",
+            counts: 0,
 
             sideToSide: null,
             frontToBack: null
@@ -97,7 +95,7 @@ function parseTable(table) {
         // If the next item starts with a number, it is the measures and the next is the counts
         if (table[cursor + 1].match(/^\d/)) {
             setInformtaion.measures = table[cursor];
-            setInformtaion.counts = table[cursor + 1];
+            setInformtaion.counts = parseInt(table[cursor + 1]);
             cursor += 2;
         } else {
             setInformtaion.counts = table[cursor];

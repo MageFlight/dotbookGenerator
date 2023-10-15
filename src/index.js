@@ -1,5 +1,4 @@
 import { jsPDF } from "jspdf";
-import sets from "./sets.json";
 import { loadSets } from "./loader";
 
 const pageWidth = 5;
@@ -51,7 +50,7 @@ function drawCard(doc, page, xOffset, yOffset) {
     }
 
     for (let i = 0; i < page.length; i++) {
-        const newCard = populateSet(doc, page[i], i & 0b1, (i & 0b10) >> 1);
+        populateSet(doc, page[i], i & 0b1, (i & 0b10) >> 1);
     }
 }
 
@@ -59,7 +58,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
     const textSize = 13;
     const lineHeight = pointsToInches(textSize) * 1.2;
     doc.setFontSize(textSize);
-    doc.text(set.label,
+    doc.text(set.setNumber,
         pageWidth / 2 + (setRectWidth / 2 * (pageXLocation * 2 - 1)),
         pageHeight / 2 + (setRectHeight / 2 * (pageYLocation * 2 - 1)),
         {
@@ -74,7 +73,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
     const firstLine = pageYLocation * pageHeight / 2 + setRectHeight + textMargin * 0.5 + pointsToInches(textSize);
     let cursor = 0;
     
-    if (set.performanceLetter) {
+    if (set.performanceLetter != "") {
         doc.setFont("helvetica", "bold");
         doc.text(
             set.performanceLetter + ":",
@@ -86,7 +85,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
         doc.setFont("helvetica", "normal");
     }
 
-    if (set.measures) {
+    if (set.measures != "") {
         doc.text(
             set.measures,
             leftEdge + indent + cursor,
@@ -102,7 +101,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
 
     
     doc.text(
-        `S${set.sideNum}: ${getYardLineOffsetText(set)}`,
+        `S${set.sideToSide.sideNum}: ${getYardLineOffsetText(set)}`,
         leftEdge,
         firstLine + lineHeight
     );
@@ -115,26 +114,26 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
 }
 
 function getYardLineOffsetText(set) {
-    if (set.yardLineOffset == 0) {
-        return "On " + set.yardLine;
+    if (set.sideToSide.yardLineOffset == 0) {
+        return "On " + set.sideToSide.yardLine;
     }
 
-    return Math.abs(set.yardLineOffset).toString() +
-        (set.yardLineOffset > 0 ? " outside " : " inside ") +
-        set.yardLine;
+    return Math.abs(set.sideToSide.yardLineOffset).toString() +
+        (set.sideToSide.yardLineOffset > 0 ? " outside " : " inside ") +
+        set.sideToSide.yardLine;
 }
 
 function getHashOffsetText(set) {
-    if (set.hashOffset == 0) {
+    if (set.frontToBack.hashOffset == 0) {
         return "On " + set.hash;
     }
 
-    return Math.abs(set.hashOffset).toString() +
-        (set.hashOffset > 0 ? " ahead of " : " behind ") +
-        set.hash;
+    return Math.abs(set.frontToBack.hashOffset).toString() +
+        (set.frontToBack.hashOffset > 0 ? " ahead of " : " behind ") +
+        set.frontToBack.hash;
 }
 
-function generateDotbook() {
+function generateDotbook(movements) {
     const doc = new jsPDF({
         orientation: "landscape",
         unit: "in",
@@ -145,11 +144,11 @@ function generateDotbook() {
     centeringMatrix.tx = inchesToPoints((11 - pageWidth * 2) / 2);
     centeringMatrix.ty = -inchesToPoints((8.5 - pageHeight * 2) / 2);
 
-    console.log(sets.length);
+    console.log(movements.length);
     const setsPerCard = 4;
     const cardsPerPage = 4;
-    for (let movement = 0; movement < sets.length; movement ++) {
-        const movementSets = sets[movement];
+    for (let movement = 0; movement < movements.length; movement++) {
+        const movementSets = movements[movement];
         
         for (let page = 0; page < movementSets.length / (setsPerCard * cardsPerPage); page++) {
             if (page + movement != 0) doc.addPage();
@@ -177,7 +176,10 @@ function generateDotbook() {
 }
 
 function main() {
-    loadSets();
+    loadSets("m2").then(sets => {
+        console.log("Sets: ", sets);
+        generateDotbook([sets]);
+    });
 }
 
 main();
