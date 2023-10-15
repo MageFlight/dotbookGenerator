@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { loadSets } from "./loader";
+import { compareSetNumbers, loadSets } from "./loader";
 
 const pageWidth = 5;
 const pageHeight = 3;
@@ -176,7 +176,7 @@ function generateDotbook(movements) {
 }
 
 function main() {
-    document.querySelector("#generateBtn").addEventListener("click", () => {
+    document.querySelector("#generateBtn").addEventListener("click", async () => {
         console.log("Started Generation")
         const files = document.querySelector("input").files;
         
@@ -186,13 +186,21 @@ function main() {
         }
 
         console.log("Files: ", files);
-        files[0].arrayBuffer().then(buffer => {
-            console.log("buffer: ", buffer);
-            loadSets(new Uint8Array(buffer), "m2").then(sets => {
-                console.log("Sets: ", sets);
-                generateDotbook([sets]);
-            });
-        })
+        let fileBufferPromises = [];
+        for (const file of files) {
+            fileBufferPromises.push(file.arrayBuffer());
+        }
+
+        let movements = [];
+        const fileBuffers = await Promise.all(fileBufferPromises);
+        for (const fileBuffer of fileBuffers) {
+            const sets = await loadSets(new Uint8Array(fileBuffer), "m2");
+            movements.push(sets);
+        }
+        
+        movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
+
+        generateDotbook(movements);
     });
 }
 

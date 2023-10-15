@@ -20,8 +20,24 @@ export async function loadSets(pdfData, performer) {
         const sets = parseText(page, performer);
         performerSets = performerSets.concat(sets);
     }
-
+    
+    performerSets.sort((a, b) => compareSetNumbers(a.setNumber, b.setNumber));
     return performerSets;
+}
+
+export function compareSetNumbers(a, b) {
+    console.log("comp: ", a, ", ", b);
+    const aNumber = parseInt(a.match(/\d+/));
+    const bNumber = parseInt(b.match(/\d+/));
+    if (aNumber < bNumber) return -1;
+    if (aNumber > bNumber) return 1;
+
+    const aLetter = a.match(/[a-z]+/i);
+    const bLetter = b.match(/[a-z]+/i);
+    if (aLetter == null && bLetter == null) return 0;
+    if (aLetter == null && bLetter != null) return -1;
+    if (aLetter != null && bLetter == null) return 1
+    return aLetter[0].localeCompare(bLetter[0]);
 }
 
 /**
