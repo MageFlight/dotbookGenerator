@@ -17,12 +17,25 @@
 
     <body>
         <h1>Dotbook Generator</h1>
-        <input type="file" id="fileInput" multiple/>
-        <input type="text" id="dotNumberInput"/>
-        <!--
-        <p id="ocrOutput"></p>
-        <p id="workerLog"></p>
-        -->
+        <form id="generatorForm" onsubmit="return false;">
+            <div>
+                <input name="dotsheetSelector" type="radio" id="dotsheet-pcmb2023" value="pcmb2023" checked />
+                <label for="dotsheet-pcmb2023">PCMB 2023</label>
+            </div>
+
+            <div>
+                <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
+                <label for="dotsheet-custom">Custom:</label>
+                <input type="file" id="fileInput" accept=".pdf" multiple/>
+            </div>
+
+            <div>
+                <label for="dotNumberInput">Dot Number:</label>
+                <input type="text" id="dotNumberInput" pattern="[a-zA-Z]+\d+" placeholder="M1" required/>
+            </div>
+            
+            <input type="submit" value="Generate">
+        </form>
         <button id="generateBtn">Generate Dot Book</button>
         <embed
             type="application/pdf"
