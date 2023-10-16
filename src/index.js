@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { compareSetNumbers, loadSets } from "./loader";
+import { compareSetNumbers, loadSets, loadSetsFromImage } from "./loader";
 
 const pageWidth = 5;
 const pageHeight = 3;
@@ -212,6 +212,8 @@ function main() {
 
         generateDotbook(movements);
     });
+
+    loadSetsFromImage();
 }
 
 main();

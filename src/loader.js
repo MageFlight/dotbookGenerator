@@ -1,4 +1,21 @@
 const pdfjs = require("pdfjs-dist");
+const { createWorker, PSM } = require('tesseract.js');
+
+export async function loadSetsFromImage() {
+    console.log("loadingImage");
+    const worker = await createWorker('eng', 1, {
+        logger: m => console.log(m), // Add logger here
+    });
+
+    console.log("worker: ", worker);
+    await worker.setParameters({
+        tessedit_pageseg_mode: PSM.SPARSE_TEXT_OSD,
+    });
+    const { data: { text } } = await worker.recognize('./mvmt3Resized.png');
+    console.log("text: ", text);
+
+    await worker.terminate();
+}
 
 export async function loadSets(pdfData, dotNumber) {
     if (!dotNumber) return null;

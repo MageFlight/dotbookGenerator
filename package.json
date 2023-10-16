@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "jspdf": "^2.5.1",
-    "pdfjs-dist": "^3.11.174"
+    "pdfjs-dist": "^3.11.174",
+    "tesseract.js": "^5.0.2"
   }
 }
