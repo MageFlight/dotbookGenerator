@@ -81,7 +81,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
             headerLine
         );
         
-        cursor = (set.performanceLetter.length + 0.4) * pointsToInches(textSize);
+        cursor = doc.getTextWidth(set.performanceLetter + ":") + textMargin * 0.5;
         doc.setFont("helvetica", "normal");
     }
 
@@ -201,6 +201,7 @@ function main() {
             fileBufferPromises.push(file.arrayBuffer());
         }
 
+        alert("Loading");
         let movements = [];
         const fileBuffers = await Promise.all(fileBufferPromises);
         for (const fileBuffer of fileBuffers) {
@@ -210,10 +211,11 @@ function main() {
         
         movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
+        alert("Generating Dotbook")
         generateDotbook(movements);
     });
 
-    loadSetsFromImage();
+    // loadSetsFromImage();
 }
 
 main();
