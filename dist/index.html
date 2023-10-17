@@ -5,37 +5,143 @@
         <script src="main.bundle.js" type="module"></script>
         <style>
             body {
-                min-height: 100vh;
+                font-family: Helvetica, Arial, sans-serif;
             }
 
-            embed {
-                width: 75%;
-                height: 100vh;
+            dialog {
+                width: 160px;
+                height: 160px;
+                border: 2px solid black;
+                border-radius: 5px;
+                outline: none;
+            }
+
+            dialog::backdrop {
+                background-color: rgba(6, 27, 54, 0.5)
+            }
+
+            .loaderBox {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            section {
+                height: 50vh;
+                aspect-ratio: 1;
+                padding: 2em;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border: 2px solid black;
+                border-radius: 5px;
+                background-color: #eee;
+
+                align-content: center;
+                text-align: center;
+            }
+
+            form {
+                display: flex;
+                height: 75%;
+                flex-direction: column;
+                text-align: left;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            .formStep {
+                border: 1px solid black;
+                border-radius: 3px;
+                width: 60%;
+                padding: 0.5em;
+            }
+
+            input {
+                margin: 0.3em
+            }
+
+            .loaderBox > h2 {
+                margin: 0;
+            }
+
+            .loader {
+                --size: 4em;
+                width: var(--size);
+                height: var(--size);
+                display: block;
+                position: relative;
+            }
+
+            .loader::after,
+            .loader::before {
+                content: '';
+                width: var(--size);
+                height: var(--size);
+                border: 3px solid #1b4780;
+                border-radius: 5px;
+                background-color: #1b478020;
+                position: absolute;
+                left: 0;
+                top: 0;
+                box-sizing: border-box;
+                animation: rotation 2s ease-in-out infinite;
+                
+            }
+            .loader::after {
+                border-color: #209F54;
+                background-color: #209F5420;
+                animation-delay: 1s;
+            }
+
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
             }
         </style>
     </head>
 
     <body>
-        <h1>Dotbook Generator</h1>
-        <form id="generatorForm" onsubmit="return false;">
-            <div>
-                <input name="dotsheetSelector" type="radio" id="dotsheet-pcmb2023" value="pcmb2023" checked />
-                <label for="dotsheet-pcmb2023">PCMB 2023</label>
-            </div>
+        <section>
+            <h1>Dotbook Generator</h1>
+            <form id="generatorForm" onsubmit="return false;">
+                <div class="formStep">
+                    <div>
+                        <input name="dotsheetSelector" type="radio" id="dotsheet-pcmb2023" value="pcmb2023" checked />
+                        <label for="dotsheet-pcmb2023">PCMB 2023</label>
+                    </div>
+    
+                    <div>
+                        <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
+                        <label for="dotsheet-custom">Custom:</label>
+                        <input type="file" id="fileInput" accept=".pdf" multiple/>
+                    </div>
+                </div>                
 
-            <div>
-                <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
-                <label for="dotsheet-custom">Custom:</label>
-                <input type="file" id="fileInput" accept=".pdf" multiple/>
-            </div>
-
-            <div>
-                <label for="dotNumberInput">Dot Number:</label>
-                <input type="text" id="dotNumberInput" pattern="[a-zA-Z]+\d+" placeholder="M1" required/>
-            </div>
-            
-            <input type="submit" value="Generate">
-        </form>
-        <a id="output" style="display: none;" target="_blank">Dotbook</a>
+                <div class="formStep">
+                    <div>
+                        <label for="dotNumberInput">Dot Number:</label>
+                        <input type="text" id="dotNumberInput" pattern="[a-zA-Z]+\d+" placeholder="M1" size="3" required/>
+                    </div>
+                </div>
+                
+                <input type="submit" value="Generate">
+            </form>
+            <dialog id="processingDialog">
+                <div class="loaderBox">
+                    <span class="loader"></span>
+                    <h2 id="currentTask">Working...</h2>
+                </div>
+            </dialog>
+            <a id="output" style="display: none;" target="_blank">Dotbook</a>
+        </section>
     </body>
 </html>

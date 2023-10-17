@@ -134,7 +134,7 @@ function getHashOffsetText(set) {
         set.frontToBack.hash;
 }
 
-function generateDotbook(movements) {
+function generateDotbook(movements, dotNumber) {
     const doc = new jsPDF({
         orientation: "landscape",
         unit: "in",
@@ -153,6 +153,16 @@ function generateDotbook(movements) {
         
         for (let page = 0; page < movementSets.length / (setsPerCard * cardsPerPage); page++) {
             if (page + movement != 0) doc.addPage();
+
+            const pageLabel = `Movement ${movement + 1}: ${dotNumber.toUpperCase()}`;
+            doc.setFontSize(20);
+            doc.text(
+                pageLabel,
+                (11 - doc.getTextWidth(pageLabel)) / 2,
+                (8.5 - pageHeight * 2) / 4,
+                {baseline: "middle"}
+            );
+
             doc.setCurrentTransformationMatrix(centeringMatrix);
             prevMatrix = doc.Matrix(1, 0, 0, 1, 0, 0);
 
@@ -173,13 +183,16 @@ function generateDotbook(movements) {
         }
     }
 
-    doc.output("dataurlnewwindow", {filename: "Dotbook"});
-    document.getElementById("output").style.display = "block";
-    document.getElementById("output").href = doc.output("bloburl", {filename: "Dotbook"});
+    const finalUrl = doc.output("bloburl", {filename: "Dotbook"});
+    window.open(finalUrl);
+    const outputLink = document.getElementById("output");
+    outputLink.style.display = "block";
+    outputLink.href = finalUrl;
+    outputLink.innerText = dotNumber.toUpperCase() + " Dotbook";
 }
 
 
-export async function startGeneration(files, dotNumber) {
+export async function startGeneration(files, dotNumber, currentTask) {
     console.log("Started Generation");
     if (!dotNumber || dotNumber == "") {
         alert("Please Enter Dot Number");
@@ -195,6 +208,7 @@ export async function startGeneration(files, dotNumber) {
     }
 
     // alert("Loading");
+    currentTask.innerText = "Parsing Sets";
     let movements = [];
     for (const file of files) {
         const sets = await loadSets(file, dotNumber);
@@ -204,5 +218,6 @@ export async function startGeneration(files, dotNumber) {
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
     // alert("Generating Dotbook")
-    generateDotbook(movements);
+    currentTask.innerText = "Drawing Dotbook";
+    generateDotbook(movements, dotNumber);
 }

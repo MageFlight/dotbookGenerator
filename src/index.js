@@ -3,6 +3,12 @@ import { startGeneration } from "./generator";
 let standardDotsheets = importFiles(require.context("../dotsheets", true, /\.pdf$/));
 
 document.querySelector("#generatorForm").addEventListener("submit", () => {
+    const processingDialog = document.querySelector("#processingDialog");
+    const currentTask = document.querySelector("#currentTask");
+
+    processingDialog.showModal();
+    currentTask.innerText = "Loading Data";
+
     const dotNumber = document.querySelector("#dotNumberInput").value;
     
     const dotsheetType = document.querySelector("input[name='dotsheetSelector']:checked").value;
@@ -16,11 +22,12 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
 
     dotsheetPromise.then(dotsheets => {
         console.log(dotsheets);
-        startGeneration(dotsheets, dotNumber);
+        startGeneration(dotsheets, dotNumber, currentTask).then(() => processingDialog.close());
     });
     
     return false;
 });
+
 
 async function loadCustomDotsheet() {
     const uploads = document.querySelector("#fileInput").files;
