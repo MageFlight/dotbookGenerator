@@ -173,7 +173,9 @@ function generateDotbook(movements) {
         }
     }
 
-    document.getElementById("display").src = doc.output("dataurlstring");
+    doc.output("dataurlnewwindow", {filename: "Dotbook"});
+    document.getElementById("output").style.display = "block";
+    document.getElementById("output").href = doc.output("bloburl", {filename: "Dotbook"});
 }
 
 
@@ -192,22 +194,15 @@ export async function startGeneration(files, dotNumber) {
         return;
     }
 
-    console.log("Files: ", files);
-    let fileBufferPromises = [];
-    for (const file of files) {
-        fileBufferPromises.push(file.arrayBuffer());
-    }
-
-    alert("Loading");
+    // alert("Loading");
     let movements = [];
-    const fileBuffers = await Promise.all(fileBufferPromises);
-    for (const fileBuffer of fileBuffers) {
-        const sets = await loadSets(new Uint8Array(fileBuffer), dotNumber);
+    for (const file of files) {
+        const sets = await loadSets(file, dotNumber);
         movements.push(sets);
     }
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
-    alert("Generating Dotbook")
+    // alert("Generating Dotbook")
     generateDotbook(movements);
 }

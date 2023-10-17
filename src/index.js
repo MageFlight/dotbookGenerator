@@ -6,25 +6,47 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
     const dotNumber = document.querySelector("#dotNumberInput").value;
     
     const dotsheetType = document.querySelector("input[name='dotsheetSelector']:checked").value;
-    let selectedDotsheets = null;
-
-    if (dotsheetType == "custom") {
-        selectedDotsheets = loadCustomDotsheet();
-    } else {
-        selectedDotsheets = loadStandardDotsheet(dotsheetType);
-    }
     
-    // startGeneration();
+    let dotsheetPromise = null;
+    if (dotsheetType == "custom") {
+        dotsheetPromise = loadCustomDotsheet();
+    } else {
+        dotsheetPromise = loadStandardDotsheet(dotsheetType);
+    }
+
+    dotsheetPromise.then(dotsheets => {
+        console.log(dotsheets);
+        startGeneration(dotsheets, dotNumber);
+    });
+    
     return false;
 });
 
-function loadCustomDotsheet() {
+async function loadCustomDotsheet() {
+    const uploads = document.querySelector("#fileInput").files;
 
+    const fileBufferPromises = [];
+    for (const file of uploads) {
+        fileBufferPromises.push(file.arrayBuffer());
+    }
+    console.log(fileBufferPromises);
+
+    const files = (await Promise.all(fileBufferPromises)).map(file => new Uint8Array(file));
+
+    return files;
 }
 
-function loadStandardDotsheet(dotsheetType) {
+async function loadStandardDotsheet(dotsheetType) {
     const dotsheetURLs = Object.values(standardDotsheets[dotsheetType]);
-    console.log("dotsheets: ", dotsheetURLs);
+    
+    let responses = dotsheetURLs.map(url => fetch(url));
+
+    let dotsheetLoadPromises = (await Promise.all(responses)).map(async (response) => new Uint8Array(await response.arrayBuffer()));
+    
+    const dotsheets = await Promise.all(dotsheetLoadPromises);
+    console.log(dotsheets);
+    
+    return dotsheets;
 }
 
 function importFiles(r) {
