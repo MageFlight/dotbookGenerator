@@ -31,7 +31,7 @@
 
             section {
                 height: 50vh;
-                aspect-ratio: 1;
+                width: 50vh;
                 padding: 2em;
                 position: absolute;
                 top: 50%;
@@ -63,6 +63,14 @@
 
             input {
                 margin: 0.3em
+            }
+
+            .customFileUpload {
+                cursor: pointer;
+            }
+
+            input[type="file"] {
+                display: none;
             }
 
             .loaderBox > h2 {
@@ -114,6 +122,7 @@
             <h1>Dotbook Generator</h1>
             <form id="generatorForm" onsubmit="return false;">
                 <div class="formStep">
+                    1. Select Dotbook
                     <div>
                         <input name="dotsheetSelector" type="radio" id="dotsheet-pcmb2023" value="pcmb2023" checked />
                         <label for="dotsheet-pcmb2023">PCMB 2023</label>
@@ -121,8 +130,10 @@
     
                     <div>
                         <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
-                        <label for="dotsheet-custom">Custom:</label>
-                        <input type="file" id="fileInput" accept=".pdf" multiple/>
+                        <label class="customFileUpload">
+                            Upload Files
+                            <input type="file" id="fileInput" accept=".pdf" multiple/>
+                        </label>
                     </div>
                 </div>                
 
