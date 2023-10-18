@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "npx webpack",
-    "serve": "npx webpack serve"
+    "serve": "npx webpack serve",
+    "emulators": "npm run build && firebase emulators:start"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.3",
