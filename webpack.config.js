@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
         "pdf.worker": "pdfjs-dist/build/pdf.worker.entry",
     },
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     devServer: {
         static: './dist',
     },
@@ -21,5 +22,10 @@ module.exports = {
                 type: 'asset/resource'
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'src/index.html'
+        })
+    ]
 };
