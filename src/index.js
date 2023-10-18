@@ -1,5 +1,5 @@
 import { startGeneration } from "./generator";
-import { resetLog } from "./logger";
+import { logError, resetLog } from "./logger";
 
 let standardDotsheets = importFiles(require.context("../dotsheets", true, /\.pdf$/));
 
@@ -24,7 +24,7 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
 
     dotsheetPromise.then(dotsheets => {
         console.log(dotsheets);
-        startGeneration(dotsheets, dotNumber, currentTask).then(() => processingDialog.close());
+        startGeneration(dotsheets, dotNumber, currentTask).then(() => processingDialog.close()).catch(error => logError(error.stack));
     });
     
     return false;

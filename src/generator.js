@@ -196,19 +196,18 @@ function generateDotbook(movements, dotNumber) {
 export async function startGeneration(files, dotNumber, currentTask) {
     console.log("Started Generation");
     if (!dotNumber || dotNumber == "") {
-        alert("Please Enter Dot Number");
+        logError("Please Enter Dot Number");
         return;
     } else if (!/[a-z]+\d+/i.test(dotNumber)) {
-        alert("Dot Number invalid");
+        logError("Dot Number invalid");
         return;
     }
 
     if (files.length == 0) {
-        alert("No files selected.");
+        logError("No files selected.");
         return;
     }
 
-    // alert("Loading");
     currentTask.innerText = "Parsing Sets";
     let movements = [];
     for (let i = 0; i < files.length; i++) {
@@ -229,7 +228,6 @@ export async function startGeneration(files, dotNumber, currentTask) {
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
-    // alert("Generating Dotbook")
     currentTask.innerText = "Drawing Dotbook";
     generateDotbook(movements, dotNumber);
 }
