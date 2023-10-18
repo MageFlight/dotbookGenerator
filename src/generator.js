@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import { compareSetNumbers, loadSets, loadSetsFromImage } from "./loader";
+import { logError } from "./logger";
 
 const pageWidth = 5;
 const pageHeight = 3;
@@ -210,9 +211,20 @@ export async function startGeneration(files, dotNumber, currentTask) {
     // alert("Loading");
     currentTask.innerText = "Parsing Sets";
     let movements = [];
-    for (const file of files) {
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         const sets = await loadSets(file, dotNumber);
+        if (sets.length == 0) {
+            logError(`No sets found for '${dotNumber}' in file ${i}`);
+            continue;
+        }
+
         movements.push(sets);
+    }
+
+    if (movements.length == 0) {
+        logError("Could not find dots for '" + dotNumber + "'");
+        return;
     }
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));

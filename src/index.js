@@ -1,8 +1,10 @@
 import { startGeneration } from "./generator";
+import { resetLog } from "./logger";
 
 let standardDotsheets = importFiles(require.context("../dotsheets", true, /\.pdf$/));
 
 document.querySelector("#generatorForm").addEventListener("submit", () => {
+    resetLog();
     const processingDialog = document.querySelector("#processingDialog");
     const currentTask = document.querySelector("#currentTask");
 

@@ -128,6 +128,11 @@
                 border: 1px black solid;
             }
 
+            #errorText {
+                /* display: none; */
+                font-weight: bold;
+                color: #cf0d0d;
+            }
 
             .loader {
                 --size: 4em;
@@ -214,6 +219,7 @@
                     <h2 id="currentTask">Working...</h2>
                 </div>
             </dialog>
+            <p id="errorText"></p>
             <a id="output" style="display: none;" target="_blank">Dotbook</a>
         </section>
     </body>

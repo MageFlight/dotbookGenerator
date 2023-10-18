@@ -1,3 +1,5 @@
+import { logError } from "./logger";
+
 const pdfjs = require("pdfjs-dist");
 const { createWorker, PSM } = require('tesseract.js');
 
@@ -85,8 +87,9 @@ export async function loadSets(pdfData, dotNumber) {
         const sets = parseText(page, dotNumber);
         performerSets = performerSets.concat(sets);
     }
-    
+
     performerSets.sort((a, b) => compareSetNumbers(a.setNumber, b.setNumber));
+
     return performerSets;
 }
 
