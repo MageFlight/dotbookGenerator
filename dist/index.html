@@ -13,7 +13,6 @@
                 height: 160px;
                 border: 2px solid black;
                 border-radius: 5px;
-                outline: none;
             }
 
             dialog::backdrop {
@@ -57,15 +56,28 @@
             .formStep {
                 border: 1px solid black;
                 border-radius: 3px;
-                width: 60%;
+                width: 80%;
                 padding: 0.5em;
             }
 
             input {
-                margin: 0.3em
+                margin: 0.3em;
+            }
+
+            dialog,
+            select:focus,
+            input:focus {
+                outline: none;
             }
 
             .customFileUpload {
+                display: block;
+                margin: 4px;
+                padding: 5px;
+                font-size: 11pt;
+                border: #1b4780 2px solid;
+                background-color: #6aa3ed;
+                border-radius: 4px;
                 cursor: pointer;
             }
 
@@ -76,6 +88,46 @@
             .loaderBox > h2 {
                 margin: 0;
             }
+
+            .dotsheetTypeSelector {
+                height: 90%;
+                display: flex;
+                align-items: stretch;
+                justify-content: space-evenly;
+            }
+
+            .dotsheetTypeSelector > div {
+                padding: 5px;
+                margin: 4px;
+                background-color: #5fda92;
+                border: #275c3d 2px solid;
+                border-radius: 5px;
+            }
+
+            select {
+                display: block;
+                width: 75%;
+                margin: 5px auto 2px auto;
+                padding: 5px;
+                border: #1b4780 2px solid;
+                background-color: #6aa3ed;
+                border-radius: 4px;
+            }
+
+            input[type="submit"] {
+                font-size: 14pt;
+                padding: 6px;
+                background-color: #3eb5d6;
+                border: #26768c 3px solid;
+                border-radius: 4px;
+            }
+
+            input[type="text"] {
+                padding: 2px;
+                border-radius: 3px;
+                border: 1px black solid;
+            }
+
 
             .loader {
                 --size: 4em;
@@ -123,28 +175,38 @@
             <form id="generatorForm" onsubmit="return false;">
                 <div class="formStep">
                     1. Select Dotbook
-                    <div>
-                        <input name="dotsheetSelector" type="radio" id="dotsheet-pcmb2023" value="pcmb2023" checked />
-                        <label for="dotsheet-pcmb2023">PCMB 2023</label>
-                    </div>
-    
-                    <div>
-                        <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
-                        <label class="customFileUpload">
-                            Upload Files
-                            <input type="file" id="fileInput" accept=".pdf" multiple/>
-                        </label>
+                    <div class="dotsheetTypeSelector">
+                        <div>
+                            <input name="dotsheetSelector" type="radio" id="dotsheet-standard" value="standard" checked />
+                            <label for="dotsheet-standard">Default Dotsheet</label>
+                            <div class="flex-center">
+                                <select id="standardDotsheet">
+                                    <option value="pcmb2023">PCMB 2023</option>
+                                </select>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <input name="dotsheetSelector" type="radio" id="dotsheet-custom" value="custom"/>
+                            <label for="dotsheet-custom">
+                                Custom
+                            </label>
+                            <label class="customFileUpload">
+                                Upload Files
+                                <input type="file" name="customDots" id="fileInput" accept=".pdf" multiple/>
+                            </label>
+                        </div>
                     </div>
                 </div>                
 
                 <div class="formStep">
                     <div>
-                        <label for="dotNumberInput">Dot Number:</label>
-                        <input type="text" id="dotNumberInput" pattern="[a-zA-Z]+\d+" placeholder="M1" size="3" required/>
+                        <label for="dotNumberInput">2. Enter Dot Number (e.g. M1):</label>
+                        <input type="text" id="dotNumberInput" pattern="[a-zA-Z]+\d+" size="3" required/>
                     </div>
                 </div>
                 
-                <input type="submit" value="Generate">
+                <input type="submit" value="Generate Dots">
             </form>
             <dialog id="processingDialog">
                 <div class="loaderBox">

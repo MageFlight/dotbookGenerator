@@ -28,7 +28,6 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
     return false;
 });
 
-
 async function loadCustomDotsheet() {
     const uploads = document.querySelector("#fileInput").files;
 
@@ -43,8 +42,10 @@ async function loadCustomDotsheet() {
     return files;
 }
 
-async function loadStandardDotsheet(dotsheetType) {
-    const dotsheetURLs = Object.values(standardDotsheets[dotsheetType]);
+async function loadStandardDotsheet() {
+    const selectDotsheet = document.querySelector("#standardDotsheet").value;
+    
+    const dotsheetURLs = Object.values(standardDotsheets[selectDotsheet]);
     
     let responses = dotsheetURLs.map(url => fetch(url));
 
