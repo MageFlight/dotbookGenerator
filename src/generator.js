@@ -135,7 +135,7 @@ function getHashOffsetText(set) {
         set.frontToBack.hash;
 }
 
-function generateDotbook(movements, dotNumber) {
+async function generateDotbook(movements, dotNumber) {
     const doc = new jsPDF({
         orientation: "landscape",
         unit: "in",
@@ -228,6 +228,7 @@ export async function startGeneration(files, dotNumber, currentTask) {
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
+    // alert("Generating Dotbook")
     currentTask.textContent = "Drawing Dotbook";
-    generateDotbook(movements, dotNumber);
+    await generateDotbook(movements, dotNumber);
 }
