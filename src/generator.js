@@ -208,7 +208,7 @@ export async function startGeneration(files, dotNumber, currentTask) {
         return;
     }
 
-    currentTask.innerText = "Parsing Sets";
+    currentTask.textContent = "Parsing Sets";
     let movements = [];
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -228,6 +228,6 @@ export async function startGeneration(files, dotNumber, currentTask) {
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
-    currentTask.innerText = "Drawing Dotbook";
+    currentTask.textContent = "Drawing Dotbook";
     generateDotbook(movements, dotNumber);
 }

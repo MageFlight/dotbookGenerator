@@ -9,7 +9,7 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
     const currentTask = document.querySelector("#currentTask");
 
     processingDialog.showModal();
-    currentTask.innerText = "Loading Data";
+    currentTask.textContent = "Loading Data";
 
     const dotNumber = document.querySelector("#dotNumberInput").value;
     
