@@ -135,7 +135,7 @@ function getHashOffsetText(set) {
         set.frontToBack.hash;
 }
 
-async function generateDotbook(movements, dotNumber) {
+async function generateDotbook(movements, dotNumber, currentTask) {
     const doc = new jsPDF({
         orientation: "landscape",
         unit: "in",
@@ -184,14 +184,14 @@ async function generateDotbook(movements, dotNumber) {
         }
     }
 
-    const finalUrl = doc.output("bloburl", {filename: "Dotbook"});
-    window.open(finalUrl);
+    const finalUrl = doc.output("bloburi", {filename: "Dotbook"});
+    window.open(finalUrl, "_blank");
     const outputLink = document.getElementById("output");
     outputLink.style.display = "block";
     outputLink.href = finalUrl;
     outputLink.innerText = dotNumber.toUpperCase() + " Dotbook";
+    currentTask.textContent = "";
 }
-
 
 export async function startGeneration(files, dotNumber, currentTask) {
     console.log("Started Generation");
@@ -208,7 +208,7 @@ export async function startGeneration(files, dotNumber, currentTask) {
         return;
     }
 
-    currentTask.textContent = "Parsing Sets";
+    document.querySelector("#currentTask").textContent = "Parsing Sets";
     let movements = [];
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -228,7 +228,6 @@ export async function startGeneration(files, dotNumber, currentTask) {
     
     movements.sort((a, b) => compareSetNumbers(a[0].setNumber, b[0].setNumber));
 
-    // alert("Generating Dotbook")
     currentTask.textContent = "Drawing Dotbook";
-    await generateDotbook(movements, dotNumber);
+    await generateDotbook(movements, dotNumber, currentTask);
 }

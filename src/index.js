@@ -3,7 +3,7 @@ import { logError, resetLog } from "./logger";
 
 let standardDotsheets = importFiles(require.context("../dotsheets", true, /\.pdf$/));
 
-document.querySelector("#generatorForm").addEventListener("submit", () => {
+document.querySelector("#generatorForm").addEventListener("submit", event => {
     resetLog();
     const processingDialog = document.querySelector("#processingDialog");
     const currentTask = document.querySelector("#currentTask");
@@ -22,10 +22,12 @@ document.querySelector("#generatorForm").addEventListener("submit", () => {
         dotsheetPromise = loadStandardDotsheet(dotsheetType);
     }
 
-    dotsheetPromise.then(dotsheets => {
+    dotsheetPromise.then(async (dotsheets) => {
         console.log(dotsheets);
         startGeneration(dotsheets, dotNumber, currentTask).then(() => processingDialog.close()).catch(error => logError(error.stack));
     });
+
+    event.stopImmediatePropagation();
     
     return false;
 });
