@@ -1,4 +1,4 @@
-7<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Dotbook Generator</title>
@@ -129,14 +129,25 @@
                 border: 1px black solid;
             }
 
+            a {
+                display: block;
+                text-decoration: none;
+                color: #137d95;
+            }
+
             #output {
                 font-size: 14pt;
-                text-decoration: none;
-                color: #34ebb7;
+                color: #196e56;
+                background-color: #c8cdce;
+                padding: 2px;
+                border: #333333 solid 2px;
+                border-radius: 3px;
+                width: 50%;
+                margin: 0 auto;
             }
 
             #errorText {
-                /* display: none; */
+                display: none;
                 font-weight: bold;
                 color: #cf0d0d;
             }
@@ -228,6 +239,7 @@
             </dialog>
             <p id="errorText"></p>
             <a id="output" style="display: none;" target="_blank">Dotbook</a>
+            <a target="_blank" href="https://github.com/MageFlight/DotbookGenerator">View Source on GitHub</a>
         </section>
     </body>
 </html>
