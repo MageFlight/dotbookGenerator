@@ -5,7 +5,7 @@
     "emulators": "npm run build && npx firebase emulators:start"
   },
   "devDependencies": {
-    "firebase-tools": "^12.7.0",
+    "firebase-tools": "^13.15.0",
     "html-webpack-plugin": "^5.5.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "jspdf": "^2.5.1",
-    "pdfjs-dist": "^3.11.174",
+    "pdfjs-dist": "^4.5.136",
     "tesseract.js": "^5.0.2"
   }
 }
