@@ -144,6 +144,7 @@
                 border-radius: 3px;
                 width: 50%;
                 margin: 0 auto;
+                text-align: center;
             }
 
             #errorText {
@@ -231,6 +232,8 @@
                 </div>
                 
                 <input type="submit" value="Generate Dots">
+
+                <a id="output" style="display: none;" target="_blank">Dotbook</a>
             </form>
             <dialog id="processingDialog">
                 <div class="loaderBox">
@@ -239,7 +242,6 @@
                 </div>
             </dialog>
             <p id="errorText"></p>
-            <a id="output" style="display: none;" target="_blank">Dotbook</a>
             <a target="_blank" href="https://github.com/MageFlight/DotbookGenerator">View Source on GitHub</a>
         </section>
     </body>
