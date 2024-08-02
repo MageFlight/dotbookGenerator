@@ -82,3 +82,27 @@ function importFiles(r) {
 
     return files;
 }
+
+// Show the user when the file upload has been successful
+
+let input = document.getElementById('fileInput');
+let label = input.nextElementSibling;
+let labelText = label.innerText;
+
+input.addEventListener('change', e => {
+    console.log("label Text: ", labelText);
+
+    let filename = ""
+    if (input.files && input.files.length > 1) {
+        filename = (input.getAttribute( 'data-multiple-caption' ) || '').replace( '{count}', input.files.length)
+    } else {
+        filename = e.target.value.split('\\').pop()
+    }
+
+    if (filename) {
+        label.innerText = filename
+        document.getElementById("dotsheet-custom").checked = true;
+    } else {
+        label.innerText = labelText
+    }
+})

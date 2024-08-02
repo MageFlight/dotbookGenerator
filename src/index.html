@@ -81,9 +81,9 @@
                 cursor: pointer;
             }
 
-            /* input[type="file"] {
+            input[type="file"] {
                 display: none;
-            } */
+            }
 
             .loaderBox > h2 {
                 margin: 0;
@@ -216,8 +216,8 @@
                                 Custom
                             </label>
                             <label class="customFileUpload">
-                                Upload Files
-                                <input type="file" name="customDots" id="fileInput" accept=".pdf" multiple/>
+                                <input type="file" name="customDots" id="fileInput" accept=".pdf" data-multiple-caption="{count} files selected" multiple/>
+                                <span>Upload File</span>
                             </label>
                         </div>
                     </div>
