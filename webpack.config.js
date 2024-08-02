@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
     entry: {
         main: './src/index.js',
-        "pdf.worker": "pdfjs-dist/build/pdf.worker.entry",
+        "pdf.worker": "pdfjs-dist/build/pdf.worker.mjs",
     },
     mode: 'development',
     devtool: 'inline-source-map',

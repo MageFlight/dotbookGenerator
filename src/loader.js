@@ -1,6 +1,6 @@
 import { logError } from "./logger";
 
-const pdfjs = require("pdfjs-dist");
+import * as pdfjs from 'pdfjs-dist/build/pdf.mjs'
 
 export async function loadSets(pdfData, dotNumber) {
     if (!dotNumber) return null;
