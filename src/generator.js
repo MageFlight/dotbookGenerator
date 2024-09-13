@@ -5,8 +5,8 @@ import { logError } from "./logger";
 const pageWidth = 4.75;
 const pageHeight = 2.25;
 const setRectWidth = 0.50;
-const setRectHeight = 0.30;
-const textMargin = 0.1;
+const setRectHeight = 0.25;
+const textMargin = 0.05;
 
 let prevMatrix = null;
 
@@ -56,7 +56,7 @@ function drawCard(doc, page, xOffset, yOffset) {
 }
 
 function populateSet(doc, set, pageXLocation, pageYLocation) {
-    const textSize = 13;
+    const textSize = 11;
     const lineHeight = pointsToInches(textSize) * 1.2;
     doc.setFontSize(textSize);
     doc.text(set.setNumber,
@@ -71,7 +71,6 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
     const leftEdge = pageXLocation * pageWidth / 2 + textMargin;
     const headerLine = pageYLocation * pageHeight / 2 + textMargin * 0.5 + pointsToInches(textSize);
     const measureIndent = (pageXLocation + pageYLocation == 2) * (setRectWidth);
-    const frontBackIndent = (pageXLocation == 1 && pageYLocation == 0) * setRectWidth;
     const firstLine = pageYLocation * pageHeight / 2 + setRectHeight + textMargin * 0.5 + pointsToInches(textSize);
     let cursor = 0;
     
@@ -110,7 +109,7 @@ function populateSet(doc, set, pageXLocation, pageYLocation) {
 
     doc.text(
         getHashOffsetText(set),
-        leftEdge + frontBackIndent,
+        leftEdge,
         firstLine + lineHeight * 2
     );
 }
